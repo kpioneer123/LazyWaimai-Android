@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/dark_gray_bg"
+    >
+
+    <include layout="@layout/include_toolbar"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/drawer_profile_height"
+                android:orientation="vertical"
+                android:background="?attr/colorPrimary">
+
+                <LinearLayout
+                    android:id="@+id/layout_login_after"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/drawer_profile_height"
+                    android:gravity="center"
+                    android:background="?attr/colorPrimary"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/img_account_avatar"
+                            android:layout_width="@dimen/drawer_account_avatar_width"
+                            android:layout_height="@dimen/drawer_account_avatar_width"
+                            android:src="@drawable/ic_default_avatar"
+                            />
+
+                        <TextView
+                            android:id="@+id/txt_account_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/img_account_avatar"
+                            android:layout_toEndOf="@+id/img_account_avatar"
+                            android:layout_margin="@dimen/spacing_minor"
+                            tools:text="听见海的声音"
+                            android:textSize="@dimen/font_large"
+                            android:textStyle="bold"
+                            android:textColor="?android:attr/textColorPrimaryInverse"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            />
+
+                        <TextView
+                            android:id="@+id/txt_user_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:drawableLeft="@drawable/ic_phone_small"
+                            android:layout_toRightOf="@id/img_account_avatar"
+                            android:layout_toEndOf="@+id/img_account_avatar"
+                            android:layout_below="@id/txt_account_name"
+                            android:layout_margin="@dimen/spacing_minor"
+                            tools:text="18996480894"
+                            android:textSize="@dimen/font_normal"
+                            android:textColor="?android:attr/textColorPrimaryInverse"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_login_before"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/drawer_profile_height"
+                    android:gravity="center"
+                    android:background="?attr/colorPrimary"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/img_account_avatar1"
+                            android:layout_width="@dimen/drawer_account_avatar_width"
+                            android:layout_height="@dimen/drawer_account_avatar_width"
+                            android:src="@drawable/ic_default_avatar"
+                            />
+
+                        <TextView
+                            android:id="@+id/txt_account_name1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/img_account_avatar1"
+                            android:layout_toEndOf="@+id/img_account_avatar1"
+                            android:layout_margin="@dimen/spacing_minor"
+                            android:text="请先登录"
+                            android:textSize="@dimen/font_large"
+                            android:textStyle="bold"
+                            android:textColor="?android:attr/textColorPrimaryInverse"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_toRightOf="@id/img_account_avatar1"
+                            android:layout_toEndOf="@+id/img_account_avatar1"
+                            android:layout_below="@id/txt_account_name1"
+                            android:layout_margin="@dimen/spacing_minor"
+                            android:text="登录查看个人信息"
+                            android:textSize="@dimen/font_normal"
+                            android:textColor="?android:attr/textColorPrimaryInverse"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <net.comet.lazyorder.widget.SectionTextView
+                android:id="@+id/btn_my_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:section_icon="@drawable/ic_address"
+                app:section_title="@string/label_my_address"
+                />
+
+            <net.comet.lazyorder.widget.SectionTextView
+                android:id="@+id/btn_favorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:section_icon="@drawable/ic_favorite"
+                app:section_title="@string/label_my_favorite"
+                />
+
+            <net.comet.lazyorder.widget.SectionTextView
+                android:id="@+id/btn_update_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:section_icon="@drawable/ic_account"
+                app:section_title="@string/label_update_account"
+                />
+
+            <net.comet.lazyorder.widget.SectionTextView
+                android:id="@+id/btn_update_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:section_icon="@drawable/ic_phone"
+                app:section_title="@string/label_phone_update"
+                />
+
+            <net.comet.lazyorder.widget.SectionTextView
+                android:id="@+id/btn_update_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:section_icon="@drawable/ic_password"
+                app:section_title="@string/label_update_password"
+                />
+
+            <net.comet.lazyorder.widget.SectionTextView
+                android:id="@+id/btn_check_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:section_icon="@drawable/ic_version_update"
+                app:section_title="@string/label_check_update"
+                app:section_subtitle="已是最新版本"
+                />
+
+            <net.comet.lazyorder.widget.SectionTextView
+                android:id="@+id/btn_help_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:section_icon="@drawable/ic_help"
+                app:section_title="@string/label_help_feedback"
+                />
+
+            <TextView
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:text="@string/label_logout"
+                android:textSize="16sp"
+                android:textColor="@color/red"
+                android:background="@drawable/selector_common_item_bg"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

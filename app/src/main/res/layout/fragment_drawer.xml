@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:background="?android:attr/colorBackground">
+
+    <include layout="@layout/include_drawer_add_account" />
+
+    <include layout="@layout/include_drawer_profile" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:divider="@null"
+        android:paddingTop="@dimen/spacing_minor"
+        android:paddingBottom="@dimen/spacing_minor" />
+
+</LinearLayout>
