@@ -1,10 +1,11 @@
 package net.comet.lazyorder.ui.activity;
 
 import android.content.Intent;
-
+import com.github.mzule.activityrouter.annotation.Router;
 import net.comet.lazyorder.R;
 import net.comet.lazyorder.ui.Display;
 
+@Router("orders/:orderId")
 public class OrderDetailActivity extends BaseActivity {
 
     @Override
@@ -15,7 +16,7 @@ public class OrderDetailActivity extends BaseActivity {
     @Override
     protected void handleIntent(Intent intent, Display display) {
         if (!display.hasMainFragment()) {
-            display.showOrderDetail(intent.getStringExtra(Display.PARAM_ID));
+            display.showOrderDetail(intent.getStringExtra("orderId"));
         }
     }
 }

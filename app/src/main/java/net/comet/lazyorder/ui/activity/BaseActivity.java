@@ -3,15 +3,14 @@ package net.comet.lazyorder.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import net.comet.lazyorder.R;
 import net.comet.lazyorder.context.AppContext;
 import net.comet.lazyorder.ui.Display;
 import net.comet.lazyorder.ui.MainController;
+import net.comet.lazyorder.util.ActivityStack;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -67,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mDisplay = null;
+        ActivityStack.create().remove(this);
     }
 
     protected void initialViews(Bundle savedInstanceState) {}

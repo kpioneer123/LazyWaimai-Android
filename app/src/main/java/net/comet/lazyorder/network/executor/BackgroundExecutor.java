@@ -4,17 +4,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 import com.google.common.base.Preconditions;
-import com.google.gson.JsonParseException;
 import com.orhanobut.logger.Logger;
 import net.comet.lazyorder.BuildConfig;
-import net.comet.lazyorder.R;
 import net.comet.lazyorder.model.bean.ResponseError;
 import net.comet.lazyorder.network.GsonHelper;
-import net.comet.lazyorder.ui.activity.ActivityStack;
-import net.comet.lazyorder.util.StringFetcher;
-import net.comet.lazyorder.util.SystemUtil;
-import org.apache.http.conn.ConnectTimeoutException;
-import java.net.SocketTimeoutException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -22,11 +16,6 @@ import java.util.concurrent.ExecutorService;
 import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static net.comet.lazyorder.util.Constants.Code.HTTP_NETWORK_ERROR;
-import static net.comet.lazyorder.util.Constants.Code.HTTP_NOT_HAVE_NETWORK;
-import static net.comet.lazyorder.util.Constants.Code.HTTP_SERVER_ERROR;
-import static net.comet.lazyorder.util.Constants.Code.HTTP_UNKNOWN_ERROR;
 
 public class BackgroundExecutor {
 

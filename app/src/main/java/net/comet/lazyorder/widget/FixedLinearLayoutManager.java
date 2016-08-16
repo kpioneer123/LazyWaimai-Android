@@ -3,6 +3,7 @@ package net.comet.lazyorder.widget;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -74,7 +75,7 @@ public class FixedLinearLayoutManager extends LinearLayoutManager {
                                    int heightSpec, int[] measuredDimension) {
         try {
             // fix 动态添加时报IndexOutOfBoundsException
-            View view = recycler.getViewForPosition(0);
+            View view = recycler.getViewForPosition(position);
             if (view != null) {
                 RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
 
@@ -85,6 +86,7 @@ public class FixedLinearLayoutManager extends LinearLayoutManager {
                         getPaddingTop() + getPaddingBottom(), p.height);
 
                 view.measure(childWidthSpec, childHeightSpec);
+                Log.e("---", "view.measure");
                 measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin;
                 measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
                 recycler.recycleView(view);

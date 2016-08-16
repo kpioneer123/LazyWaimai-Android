@@ -2,8 +2,6 @@ package net.comet.lazyorder.ui;
 
 import android.util.Log;
 import com.google.common.base.Preconditions;
-import com.orhanobut.logger.Logger;
-
 import net.comet.lazyorder.context.AppConfig;
 import net.comet.lazyorder.model.bean.ResponseError;
 import java.util.Collections;
@@ -20,16 +18,6 @@ public abstract class BaseUiController<U extends BaseUiController.Ui<UC>, UC> ex
         mUis = new CopyOnWriteArraySet<>();
         mUnmodifiableUis = Collections.unmodifiableSet(mUis);
     }
-
-//    @Override
-//    protected void onInited() {
-//        if (!mUis.isEmpty()) {
-//            for (U ui : mUis) {
-//                onUiAttached(ui);
-//                populateUi(ui);
-//            }
-//        }
-//    }
 
     /**
      * 绑定UI
@@ -69,9 +57,9 @@ public abstract class BaseUiController<U extends BaseUiController.Ui<UC>, UC> ex
     public synchronized final void detachUi(U ui) {
         Preconditions.checkArgument(ui != null, "ui cannot be null");
         Preconditions.checkState(mUis.contains(ui), "ui is not attached");
-        onUiDetached(ui);
         ui.setCallbacks(null);
         mUis.remove(ui);
+        onUiDetached(ui);
     }
 
     /**

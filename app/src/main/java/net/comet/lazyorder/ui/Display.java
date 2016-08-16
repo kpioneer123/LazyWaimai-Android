@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+
+import com.github.mzule.activityrouter.router.Routers;
 import com.google.common.base.Preconditions;
 import com.orhanobut.logger.Logger;
 
@@ -185,9 +187,7 @@ public class Display {
     }
 
     public void startOrderDetailActivity(String orderId) {
-        Intent intent = new Intent(mActivity, OrderDetailActivity.class);
-        intent.putExtra(PARAM_ID, orderId);
-        mActivity.startActivity(intent);
+        Routers.open(mActivity, "lazywaimai://orders/" + orderId);
     }
 
     public void startAddressListActivity() {

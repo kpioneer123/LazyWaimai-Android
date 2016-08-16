@@ -72,7 +72,6 @@ public final class DensityUtil {
         DisplayMetrics dm = new DisplayMetrics();
         dm = aty.getResources().getDisplayMetrics();
         int w = dm.widthPixels - 100;
-        // int w = aty.getWindowManager().getDefaultDisplay().getWidth() - 100;
         return w;
     }
 
@@ -83,7 +82,6 @@ public final class DensityUtil {
         DisplayMetrics dm = new DisplayMetrics();
         dm = aty.getResources().getDisplayMetrics();
         int w = dm.widthPixels;
-        // int w = aty.getWindowManager().getDefaultDisplay().getWidth();
         return w;
     }
 
@@ -94,7 +92,6 @@ public final class DensityUtil {
         DisplayMetrics dm = new DisplayMetrics();
         dm = aty.getResources().getDisplayMetrics();
         int h = dm.heightPixels;
-        // int h = aty.getWindowManager().getDefaultDisplay().getHeight();
         return h;
     }
 }

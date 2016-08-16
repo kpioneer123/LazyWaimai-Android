@@ -22,11 +22,15 @@
         <attr name="contentInsetStart" />
     </declare-styleable>
 
-    <declare-styleable name="SectionTextView">
-        <attr name="section_icon" format="reference" />
-        <attr name="section_title" format="reference|string" />
-        <attr name="section_subtitle" format="reference|string" />
-        <attr name="section_next" format="boolean" />
+    <declare-styleable name="SectionView">
+        <attr name="headerText" format="string" />
+        <attr name="footerText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SectionItemView">
+        <attr name="siv_icon" format="reference" />
+        <attr name="siv_name" format="reference|string" />
+        <attr name="siv_indicator" format="boolean" />
     </declare-styleable>
 
 

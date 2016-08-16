@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,18 +14,21 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/drawer_profile_height"
                 android:orientation="vertical"
-                android:background="?attr/colorPrimary">
+                android:background="?attr/colorPrimary"
+                >
 
                 <LinearLayout
                     android:id="@+id/layout_login_after"
@@ -43,7 +45,7 @@
                         >
 
                         <ImageView
-                            android:id="@+id/img_account_avatar"
+                            android:id="@+id/img_avatar"
                             android:layout_width="@dimen/drawer_account_avatar_width"
                             android:layout_height="@dimen/drawer_account_avatar_width"
                             android:src="@drawable/ic_default_avatar"
@@ -53,8 +55,8 @@
                             android:id="@+id/txt_account_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/img_account_avatar"
-                            android:layout_toEndOf="@+id/img_account_avatar"
+                            android:layout_toRightOf="@+id/img_avatar"
+                            android:layout_toEndOf="@+id/img_avatar"
                             android:layout_margin="@dimen/spacing_minor"
                             tools:text="听见海的声音"
                             android:textSize="@dimen/font_large"
@@ -69,8 +71,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:drawableLeft="@drawable/ic_phone_small"
-                            android:layout_toRightOf="@id/img_account_avatar"
-                            android:layout_toEndOf="@+id/img_account_avatar"
+                            android:layout_toRightOf="@id/img_avatar"
+                            android:layout_toEndOf="@+id/img_avatar"
                             android:layout_below="@id/txt_account_name"
                             android:layout_margin="@dimen/spacing_minor"
                             tools:text="18996480894"
@@ -138,70 +140,95 @@
 
             </FrameLayout>
 
-            <net.comet.lazyorder.widget.SectionTextView
-                android:id="@+id/btn_my_address"
+            <net.comet.lazyorder.widget.section.SectionListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:section_icon="@drawable/ic_address"
-                app:section_title="@string/label_my_address"
-                />
+                android:layout_marginTop="@dimen/spacing_major"
+                >
 
-            <net.comet.lazyorder.widget.SectionTextView
-                android:id="@+id/btn_favorite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:section_icon="@drawable/ic_favorite"
-                app:section_title="@string/label_my_favorite"
-                />
+                <net.comet.lazyorder.widget.section.SectionTextItemView
+                    android:id="@+id/btn_my_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:siv_icon="@drawable/ic_address"
+                    app:siv_name="@string/label_my_address"
+                    />
 
-            <net.comet.lazyorder.widget.SectionTextView
-                android:id="@+id/btn_update_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:section_icon="@drawable/ic_account"
-                app:section_title="@string/label_update_account"
-                />
+                <net.comet.lazyorder.widget.section.SectionTextItemView
+                    android:id="@+id/btn_favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:siv_icon="@drawable/ic_favorite"
+                    app:siv_name="@string/label_my_favorite"
+                    />
 
-            <net.comet.lazyorder.widget.SectionTextView
-                android:id="@+id/btn_update_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:section_icon="@drawable/ic_phone"
-                app:section_title="@string/label_phone_update"
-                />
+            </net.comet.lazyorder.widget.section.SectionListView>
 
-            <net.comet.lazyorder.widget.SectionTextView
-                android:id="@+id/btn_update_password"
+            <net.comet.lazyorder.widget.section.SectionListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:section_icon="@drawable/ic_password"
-                app:section_title="@string/label_update_password"
-                />
+                android:layout_marginTop="@dimen/spacing_major"
+                >
 
-            <net.comet.lazyorder.widget.SectionTextView
-                android:id="@+id/btn_check_update"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:section_icon="@drawable/ic_version_update"
-                app:section_title="@string/label_check_update"
-                app:section_subtitle="已是最新版本"
-                />
+                <net.comet.lazyorder.widget.section.SectionTextItemView
+                    android:id="@+id/btn_update_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:siv_icon="@drawable/ic_account"
+                    app:siv_name="@string/label_update_account"
+                    />
 
-            <net.comet.lazyorder.widget.SectionTextView
-                android:id="@+id/btn_help_feedback"
+                <net.comet.lazyorder.widget.section.SectionTextItemView
+                    android:id="@+id/btn_update_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:siv_icon="@drawable/ic_phone"
+                    app:siv_name="@string/label_phone_update"
+                    />
+
+                <net.comet.lazyorder.widget.section.SectionTextItemView
+                    android:id="@+id/btn_update_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:siv_icon="@drawable/ic_password"
+                    app:siv_name="@string/label_update_password"
+                    />
+
+            </net.comet.lazyorder.widget.section.SectionListView>
+
+
+            <net.comet.lazyorder.widget.section.SectionListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:section_icon="@drawable/ic_help"
-                app:section_title="@string/label_help_feedback"
-                />
+                android:layout_marginTop="@dimen/spacing_major"
+                >
+
+                <net.comet.lazyorder.widget.section.SectionTextItemView
+                    android:id="@+id/btn_check_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:siv_icon="@drawable/ic_version_update"
+                    app:siv_name="@string/label_check_update"
+                    />
+
+                <net.comet.lazyorder.widget.section.SectionTextItemView
+                    android:id="@+id/btn_help_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:siv_icon="@drawable/ic_feedback"
+                    app:siv_name="@string/label_help_feedback"
+                    />
+
+            </net.comet.lazyorder.widget.section.SectionListView>
 
             <TextView
                 android:id="@+id/btn_logout"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/section_height"
+                android:layout_marginTop="@dimen/spacing_major"
                 android:gravity="center"
                 android:text="@string/label_logout"
-                android:textSize="16sp"
+                android:textSize="@dimen/font_normal"
                 android:textColor="@color/red"
                 android:background="@drawable/selector_common_item_bg"
                 />

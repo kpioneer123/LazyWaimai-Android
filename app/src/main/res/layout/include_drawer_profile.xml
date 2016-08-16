@@ -7,7 +7,7 @@
     android:padding="@dimen/spacing_major">
 
     <net.comet.lazyorder.widget.PicassoImageView
-        android:id="@+id/img_account_avatar"
+        android:id="@+id/img_avatar"
         android:layout_width="@dimen/drawer_account_avatar_width"
         android:layout_height="@dimen/drawer_account_avatar_width"
         android:layout_alignParentBottom="true"
@@ -18,8 +18,8 @@
         style="@style/Widget.Drawer.AddAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/img_account_avatar"
-        android:layout_alignTop="@+id/img_account_avatar"
+        android:layout_toRightOf="@id/img_avatar"
+        android:layout_alignTop="@+id/img_avatar"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="@dimen/spacing_micro"
         android:textSize="20dp"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_phone_small"
-        android:layout_toRightOf="@id/img_account_avatar"
+        android:layout_toRightOf="@id/img_avatar"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/spacing_micro"
         android:layout_marginBottom="12dp"

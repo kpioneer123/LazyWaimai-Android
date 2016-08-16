@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/section_height"
+    >
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/spacing_major"
+        android:gravity="center_vertical"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/font_normal"
+        />
+
+    <ImageView
+        android:id="@+id/img_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_right_arrow"
+        android:layout_marginRight="@dimen/spacing_major"
+        android:visibility="invisible"
+        />
+
+    <FrameLayout
+        android:id="@+id/layout_extension"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/spacing_major"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/img_indicator"
+        />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_size"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/spacing_major"
+        android:background="@color/divider"
+        />
+
+</RelativeLayout>
