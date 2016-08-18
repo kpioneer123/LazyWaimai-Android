@@ -13,13 +13,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacing_major"
         >
 
         <cn.bingoogolapple.badgeview.BGABadgeFrameLayout
             android:id="@id/badge_view"
-            android:layout_width="@dimen/business_image_width"
-            android:layout_height="@dimen/business_image_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_minor"
             android:padding="@dimen/spacing_minor"
             app:badge_gravity="rightTop"
             >
@@ -29,18 +29,18 @@
 
         </cn.bingoogolapple.badgeview.BGABadgeFrameLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_minor"
-            android:layout_marginStart="@dimen/spacing_minor"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_major"
+            android:layout_marginBottom="@dimen/spacing_major"
             >
 
             <TextView
                 android:id="@id/txt_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 tools:text="必胜宅急送（锦秋店）"
                 android:textSize="16sp"
                 android:textColor="@color/primary_text"
@@ -50,6 +50,7 @@
                 android:id="@id/txt_month_sales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 tools:text="月售23份"
                 android:textSize="12sp"
                 android:textColor="@color/secondary_text"
@@ -59,12 +60,13 @@
                 android:id="@id/txt_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 tools:text="起送 ￥25  配送费 ￥1  平均45分钟"
                 android:textSize="12sp"
                 android:textColor="@color/secondary_text"
                 />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

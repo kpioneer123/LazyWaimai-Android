@@ -223,7 +223,7 @@ public class UserController extends BaseUiController<UserController.UserUi, User
                         if (ui instanceof UserLoginUi) {
                             ((UserLoginUi) ui).userLoginFinish();
                             // 发送用户账户改变的事件
-                            EventUtil.sendEvent(new AccountChangedEvent(getId(ui), user));
+                            EventUtil.sendEvent(new AccountChangedEvent(user));
                         }
                     }
                 }, new ErrorAction() {
@@ -302,7 +302,7 @@ public class UserController extends BaseUiController<UserController.UserUi, User
             @Override
             public void logout() {
                 // 发送用户账户改变的事件
-                EventUtil.sendEvent(new AccountChangedEvent(getId(ui), null));
+                EventUtil.sendEvent(new AccountChangedEvent(null));
             }
         };
     }

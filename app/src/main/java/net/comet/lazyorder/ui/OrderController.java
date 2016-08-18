@@ -4,7 +4,6 @@ import android.os.Handler;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
-
 import net.comet.lazyorder.R;
 import net.comet.lazyorder.context.AppCookie;
 import net.comet.lazyorder.model.bean.Business;
@@ -12,7 +11,6 @@ import net.comet.lazyorder.model.bean.Order;
 import net.comet.lazyorder.model.bean.ResponseError;
 import net.comet.lazyorder.model.bean.ResultsPage;
 import net.comet.lazyorder.model.bean.SettleResult;
-import net.comet.lazyorder.model.bean.User;
 import net.comet.lazyorder.model.event.AccountChangedEvent;
 import net.comet.lazyorder.network.RestApiClient;
 import net.comet.lazyorder.network.action.ErrorAction;
@@ -25,6 +23,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import static net.comet.lazyorder.util.Constants.Code.HTTP_UNAUTHORIZED;
 
 public class OrderController extends BaseUiController<OrderController.OrderUi,
         OrderController.OrderUiCallbacks> {
@@ -43,18 +42,6 @@ public class OrderController extends BaseUiController<OrderController.OrderUi,
 
     @Subscribe
     public void onAccountChanged(AccountChangedEvent event) {
-        User user = event.getUser();
-        if (user != null) {
-            AppCookie.saveUserInfo(user);
-            AppCookie.saveAccessToken(user.getAccessToken());
-            AppCookie.saveLastPhone(user.getMobile());
-            mRestApiClient.setToken(user.getAccessToken());
-        } else {
-            AppCookie.saveUserInfo(null);
-            AppCookie.saveAccessToken(null);
-            mRestApiClient.setToken(null);
-        }
-
         populateUis();
     }
 
@@ -113,33 +100,42 @@ public class OrderController extends BaseUiController<OrderController.OrderUi,
     }
 
     private void fetchOrders(final int callingId, final int page) {
-        mRestApiClient.orderService()
-                .orders(page)
-                .map(new Func1<ResultsPage<Order>, List<Order>>() {
-                    @Override
-                    public List<Order> call(ResultsPage<Order> results) {
-                        return results.results;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<Order>>() {
-                    @Override
-                    public void call(List<Order> orders) {
-                        OrderUi ui = findUi(callingId);
-                        if (ui instanceof OrderListUi) {
-                            ((OrderListUi) ui).onChangeItem(orders, mPageIndex);
+        if (!AppCookie.isLoggin()) {
+            OrderUi ui = findUi(callingId);
+            if (ui instanceof OrderListUi) {
+                ResponseError error = new ResponseError(HTTP_UNAUTHORIZED,
+                        StringFetcher.getString(R.string.toast_error_not_login));
+                ((OrderListUi) ui).onNetworkError(error, mPageIndex);
+            }
+        } else {
+            mRestApiClient.orderService()
+                    .orders(page)
+                    .map(new Func1<ResultsPage<Order>, List<Order>>() {
+                        @Override
+                        public List<Order> call(ResultsPage<Order> results) {
+                            return results.results;
                         }
-                    }
-                }, new ErrorAction() {
-                    @Override
-                    public void call(ResponseError error) {
-                        OrderUi ui = findUi(callingId);
-                        if (ui instanceof OrderListUi) {
-                            ((OrderListUi) ui).onNetworkError(error, mPageIndex);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<List<Order>>() {
+                        @Override
+                        public void call(List<Order> orders) {
+                            OrderUi ui = findUi(callingId);
+                            if (ui instanceof OrderListUi) {
+                                ((OrderListUi) ui).onChangeItem(orders, mPageIndex);
+                            }
                         }
-                    }
-                });
+                    }, new ErrorAction() {
+                        @Override
+                        public void call(ResponseError error) {
+                            OrderUi ui = findUi(callingId);
+                            if (ui instanceof OrderListUi) {
+                                ((OrderListUi) ui).onNetworkError(error, mPageIndex);
+                            }
+                        }
+                    });
+        }
     }
 
     /**

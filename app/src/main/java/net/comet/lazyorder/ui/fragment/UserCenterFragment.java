@@ -1,6 +1,8 @@
 package net.comet.lazyorder.ui.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,6 +52,9 @@ public class UserCenterFragment extends BaseFragment<UserController.UserUiCallba
     @Bind(R.id.btn_help_feedback)
     SectionTextItemView mHelpFeedbackBtn;
 
+    @Bind(R.id.layout_logout)
+    View mLogoutLayout;
+
     @Bind(R.id.btn_logout)
     TextView mLogoutBtn;
 
@@ -87,9 +92,7 @@ public class UserCenterFragment extends BaseFragment<UserController.UserUiCallba
                 }
                 break;
             case R.id.btn_logout:
-                if (hasCallbacks()) {
-                    getCallbacks().logout();
-                }
+                doLogout();
                 break;
         }
     }
@@ -104,7 +107,7 @@ public class UserCenterFragment extends BaseFragment<UserController.UserUiCallba
         if (userInfo != null) {
             mLoginBeforeLayout.setVisibility(View.GONE);
             mLoginAfterLayout.setVisibility(View.VISIBLE);
-            mLogoutBtn.setVisibility(View.VISIBLE);
+            mLogoutLayout.setVisibility(View.VISIBLE);
 
             String url = userInfo.getAvatarUrl();
             if (!TextUtils.isEmpty(url)) {
@@ -118,7 +121,23 @@ public class UserCenterFragment extends BaseFragment<UserController.UserUiCallba
         } else {
             mLoginBeforeLayout.setVisibility(View.VISIBLE);
             mLoginAfterLayout.setVisibility(View.GONE);
-            mLogoutBtn.setVisibility(View.GONE);
+            mLogoutLayout.setVisibility(View.GONE);
         }
+    }
+
+    private void doLogout() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.dialog_logout_title)
+                .setMessage(R.string.dialog_logout_message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getCallbacks().logout();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_cancel, null)
+                .create()
+                .show();
     }
 }

@@ -46,8 +46,8 @@ public class BusinessItemView extends BaseAdapterItemView<Business> {
     @Override
     public void bind(Business business) {
         if (!TextUtils.isEmpty(business.getPicUrl())) {
-            Picasso.with(getContext()).
-                    load(business.getPicUrl())
+            Picasso.with(getContext())
+                    .load(business.getPicUrl())
                     .into(mPhotoImg);
         }
         mNameTxt.setText(item.getName());

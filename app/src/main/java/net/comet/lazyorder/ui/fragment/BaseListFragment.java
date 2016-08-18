@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 import net.comet.lazyorder.R;
 import net.comet.lazyorder.context.AppConfig;
 import net.comet.lazyorder.model.bean.ResponseError;
@@ -14,6 +12,8 @@ import net.comet.lazyorder.util.CollectionUtil;
 import static net.comet.lazyorder.util.Constants.Code.*;
 import net.comet.lazyorder.util.ToastUtil;
 import net.comet.lazyorder.widget.MultiStateView;
+import net.comet.lazyorder.widget.refresh.OnRefreshListener;
+import net.comet.lazyorder.widget.refresh.RefreshLayout;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -30,7 +30,7 @@ public abstract class BaseListFragment<I, IV extends BindableLayout, UC> extends
     MultiStateView mMultiStateView;
 
     @Bind(R.id.refresh_layout)
-    MaterialRefreshLayout mRefreshLayout;
+    RefreshLayout mRefreshLayout;
 
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -54,14 +54,15 @@ public abstract class BaseListFragment<I, IV extends BindableLayout, UC> extends
                 .listener(this)
                 .into(mRecyclerView);
 
-        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+            public void onRefresh() {
                 refresh();
             }
 
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+            public void onLoadMore() {
                 nextPage();
             }
         });
@@ -92,6 +93,7 @@ public abstract class BaseListFragment<I, IV extends BindableLayout, UC> extends
     public void onNetworkError(final ResponseError error, int pageIndex) {
         if (error.getStatus() == HTTP_UNAUTHORIZED) {
             mMultiStateView.setState(MultiStateView.STATE_UNAUTH)
+                    .setTitle(error.getMessage())
                     .setButton(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -115,15 +117,23 @@ public abstract class BaseListFragment<I, IV extends BindableLayout, UC> extends
 
     @Override
     public void onChangeItem(List<I> items, int pageIndex) {
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.finishRefresh();
+        }
+        if (mRefreshLayout.isLoadMoreing()) {
+            mRefreshLayout.finishLoadMore();
+        }
+
+        mRefreshLayout.setEnableLoadMore(!CollectionUtil.isEmpty(items)
+                && items.size() == AppConfig.PAGE_SIZE);
+
         if (!CollectionUtil.isEmpty(items)) {
             if (pageIndex == 1) {
-                setIsPopulated(true);
                 mAdapter.setItems(items);
                 mMultiStateView.setState(MultiStateView.STATE_CONTENT);
             } else {
                 mAdapter.addItems(items);
             }
-            mRefreshLayout.setLoadMore(items.size() == AppConfig.PAGE_SIZE);
         } else {
             if (pageIndex == 1) {
                 mMultiStateView.setState(MultiStateView.STATE_EMPTY)
@@ -137,11 +147,7 @@ public abstract class BaseListFragment<I, IV extends BindableLayout, UC> extends
             } else {
                 ToastUtil.showToast(R.string.toast_error_not_have_more);
             }
-            mRefreshLayout.setLoadMore(false);
         }
-        setIsPopulated(true);
-        mRefreshLayout.finishRefresh();
-        mRefreshLayout.finishRefreshLoadMore();
     }
 
     @Override

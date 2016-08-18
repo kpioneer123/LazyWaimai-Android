@@ -16,14 +16,10 @@
         android:layout_height="match_parent"
         >
 
-        <com.cjj.MaterialRefreshLayout
+        <net.comet.lazyorder.widget.refresh.RefreshLayout
             android:id="@id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:wave_color="@color/transparent"
-            app:overlay="true"
-            app:progress_colors="@array/material_colors"
-            app:wave_show="false"
             >
 
             <android.support.v7.widget.RecyclerView
@@ -32,7 +28,7 @@
                 android:layout_height="match_parent"
                 />
 
-        </com.cjj.MaterialRefreshLayout>
+        </net.comet.lazyorder.widget.refresh.RefreshLayout>
 
     </net.comet.lazyorder.widget.MultiStateView>
 

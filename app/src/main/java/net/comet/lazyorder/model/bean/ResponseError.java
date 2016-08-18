@@ -4,7 +4,6 @@ import com.google.gson.JsonParseException;
 import com.orhanobut.logger.Logger;
 import net.comet.lazyorder.BuildConfig;
 import net.comet.lazyorder.R;
-import net.comet.lazyorder.context.AppCookie;
 import net.comet.lazyorder.network.GsonHelper;
 import net.comet.lazyorder.util.StringFetcher;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -58,13 +57,8 @@ public class ResponseError {
                         fromJson(exception.response().errorBody().string(),
                                 ResponseError.class);
                 if (error.getStatus() == HTTP_UNAUTHORIZED) {
-                    if (AppCookie.isLoggin()) {
-                        error = new ResponseError(HTTP_UNAUTHORIZED,
-                                StringFetcher.getString(R.string.toast_error_credentials_have_expired));
-                    } else {
-                        error = new ResponseError(HTTP_UNAUTHORIZED,
-                                StringFetcher.getString(R.string.toast_error_not_login));
-                    }
+                    error = new ResponseError(HTTP_UNAUTHORIZED,
+                            StringFetcher.getString(R.string.toast_error_credentials_have_expired));
                 }
             } catch (Exception e) {
                 if (e instanceof JsonParseException) {

@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 import net.comet.lazyorder.R;
 import net.comet.lazyorder.context.AppContext;
 import net.comet.lazyorder.model.bean.Address;
@@ -20,6 +18,9 @@ import net.comet.lazyorder.ui.adapter.AddressItemView;
 import net.comet.lazyorder.util.CollectionUtil;
 import net.comet.lazyorder.util.ToastUtil;
 import net.comet.lazyorder.widget.MultiStateView;
+import net.comet.lazyorder.widget.refresh.OnRefreshListener;
+import net.comet.lazyorder.widget.refresh.RefreshLayout;
+
 import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -39,7 +40,7 @@ public class AddressesFragment extends BaseFragment<AddressController.AddressUiC
     MultiStateView mMultiStateView;
 
     @Bind(R.id.refresh_layout)
-    MaterialRefreshLayout mRefreshLayout;
+    RefreshLayout mRefreshLayout;
 
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -78,10 +79,9 @@ public class AddressesFragment extends BaseFragment<AddressController.AddressUiC
                 .listener(this)
                 .into(mRecyclerView);
 
-        mRefreshLayout.setLoadMore(false);
-        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+            public void onRefresh() {
                 if (hasCallbacks()) {
                     getCallbacks().refresh();
                 }

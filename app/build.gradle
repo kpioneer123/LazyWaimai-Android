@@ -86,8 +86,6 @@ dependencies {
     // 函数式编程框架
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'
-    // SwipeRefreshLayout的争强版
-    compile 'com.cjj.materialrefeshlayout:library:1.3.0'
     // 进度条
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
