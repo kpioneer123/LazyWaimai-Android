@@ -1,81 +1,125 @@
 package net.comet.lazyorder.widget.refresh;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.Gravity;
-import android.view.ViewGroup;
+import android.view.LayoutInflater;
 import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
-import android.widget.FrameLayout;
-import net.comet.lazyorder.widget.CircleImageView;
-import net.comet.lazyorder.widget.MaterialProgressDrawable;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+import net.comet.lazyorder.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 默认的头部下拉刷新view
  */
 public class DefaultRefreshHeaderView extends BaseRefreshHeaderView {
 
-    // 旋转View的默认背景
-    private static final int CIRCLE_BG_LIGHT = 0xFFFAFAFA;
-    // 旋转View的直径
-    private static final int CIRCLE_DIAMETER = 40;
-    // 旋转View的最低透明度
-    private static final int MIN_ALPHA = 60;
+    @Bind(R.id.pull_sun)
+    ImageView sunImg;
 
-    private CircleImageView circleImageView;
-    private MaterialProgressDrawable progressDrawable;
+    @Bind(R.id.pull_rider)
+    ImageView riderImg;
+
+    @Bind(R.id.pull_wheel_left)
+    ImageView leftWheelImg;
+
+    @Bind(R.id.pull_wheel_right)
+    ImageView rightWheelImg;
+
+    @Bind(R.id.pull_backImg_left)
+    ImageView leftBackImg;
+
+    @Bind(R.id.pull_backImg_right)
+    ImageView rightBackImg;
+
+    private Animation sunRotation;
+    private Animation riderShake;
+    private Animation wheelRotation;
+    private Animation leftBackTranslate;
+    private Animation rightBackTranslate;
 
     public DefaultRefreshHeaderView(Context context) {
         super(context);
-        progressDrawable = new MaterialProgressDrawable(getContext(), this);
-        progressDrawable.setBackgroundColor(CIRCLE_BG_LIGHT);
+        LayoutInflater.from(context).inflate(R.layout.layout_refresh_header, this);
+        initAnimations();
+    }
 
-        circleImageView = new CircleImageView(getContext(), CIRCLE_BG_LIGHT, CIRCLE_DIAMETER / 2);
-        circleImageView.setImageDrawable(progressDrawable);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.CENTER;
-        layoutParams.topMargin = 50;
-        layoutParams.bottomMargin = 50;
-        addView(circleImageView, layoutParams);
+    private void initAnimations() {
+        sunRotation = new RotateAnimation(0, 179,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        sunRotation.setInterpolator(new LinearInterpolator());
+        sunRotation.setRepeatCount(Animation.INFINITE);
+        sunRotation.setDuration(600);
+
+        riderShake = new TranslateAnimation(0, 0, 0, 5);
+        riderShake.setRepeatMode(Animation.REVERSE);
+        riderShake.setRepeatCount(Animation.INFINITE);
+        riderShake.setInterpolator(new DecelerateInterpolator());
+        riderShake.setDuration(225);
+
+        wheelRotation = new RotateAnimation(0, 359,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        wheelRotation.setInterpolator(new LinearInterpolator());
+        wheelRotation.setRepeatCount(Animation.INFINITE);
+        wheelRotation.setDuration(300);
+
+        leftBackTranslate = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, -1,
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0);
+        leftBackTranslate.setRepeatMode(Animation.RESTART);
+        leftBackTranslate.setRepeatCount(Animation.INFINITE);
+        leftBackTranslate.setInterpolator(new LinearInterpolator());
+        leftBackTranslate.setDuration(2000);
+
+        rightBackTranslate = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1,
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0);
+        rightBackTranslate.setRepeatMode(Animation.RESTART);
+        rightBackTranslate.setRepeatCount(Animation.INFINITE);
+        rightBackTranslate.setInterpolator(new LinearInterpolator());
+        rightBackTranslate.setDuration(2000);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        ButterKnife.unbind(this);
     }
 
     @Override
     public HeaderConfig getConfig() {
         HeaderConfig config = new HeaderConfig();
-        config.isOverlay = true;
+        config.isOverlay = false;
         config.maxOffset = 300;
         return config;
     }
 
     @Override
+    public void onBegin() {
+        sunImg.startAnimation(sunRotation);
+        riderImg.startAnimation(riderShake);
+        leftWheelImg.startAnimation(wheelRotation);
+        rightWheelImg.startAnimation(wheelRotation);
+        leftBackImg.startAnimation(leftBackTranslate);
+        rightBackImg.startAnimation(rightBackTranslate);
+    }
+
+    @Override
     public void onPull(float fraction) {
-        progressDrawable.showArrow(false);
 
-        progressDrawable.setStartEndTrim(0, getEndTrim(fraction)); // 箭头的长度
-        progressDrawable.setAlpha(getTopAlpha(fraction));
-        progressDrawable.setRotation(getRotation(fraction));
-        progressDrawable.setArrowScale(getArrowScale(fraction));
-    }
-
-    private float getEndTrim(float fraction) {
-        return 0.8f * fraction;
-    }
-
-    private int getTopAlpha(float fraction) {
-        return MIN_ALPHA + (int) ((200.0f - MIN_ALPHA) * fraction);
-    }
-
-    private float getArrowScale(float fraction) {
-        return fraction;
-    }
-
-    private int getRotation(float fraction) {
-        return 0;
-    }
-
-    public void setColorSchemeColors(int... colors) {
-        progressDrawable.setColorSchemeColors(colors);
     }
 
     @Override
@@ -85,17 +129,16 @@ public class DefaultRefreshHeaderView extends BaseRefreshHeaderView {
 
     @Override
     public void onRefreshing() {
-        progressDrawable.start();
+
     }
 
     @Override
     public void onComplete() {
-        progressDrawable.stop();
-        ScaleAnimation animation = new ScaleAnimation(1f, 0f, 1f, 0f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        animation.setDuration(150);
-        circleImageView.clearAnimation();
-        circleImageView.startAnimation(animation);
+        sunImg.clearAnimation();
+        riderImg.clearAnimation();
+        leftWheelImg.clearAnimation();
+        rightWheelImg.clearAnimation();
+        leftBackImg.clearAnimation();
+        rightBackImg.clearAnimation();
     }
 }

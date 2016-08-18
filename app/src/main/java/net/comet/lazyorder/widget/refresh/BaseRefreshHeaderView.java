@@ -22,6 +22,8 @@ public abstract class BaseRefreshHeaderView extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
+    public abstract void onBegin();
+
     public abstract void onPull(float fraction);
 
     public abstract void onRelease();

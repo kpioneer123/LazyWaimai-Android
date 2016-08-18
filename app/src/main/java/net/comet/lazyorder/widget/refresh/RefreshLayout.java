@@ -123,7 +123,6 @@ public class RefreshLayout extends FrameLayout {
         int height = mFooterView.getMeasuredHeight();
         if (height > 0) {
             mFooterHeight = height;
-            Log.e("------", "mFooterHeight:" + mFooterHeight);
         } else {
             throw new RuntimeException("the height of the feader view is 0!");
         }
@@ -242,11 +241,14 @@ public class RefreshLayout extends FrameLayout {
             case MotionEvent.ACTION_MOVE:
                 float dy = ev.getY() - mTouchY;
                 if (dy > mTouchSlop && !canChildScrollUp()) {
+                    boolean isIntercept = true;
                     if (mOnRefreshListener != null) {
-                        return mOnRefreshListener.enableRefresh();
-                    } else {
-                        return true;
+                        isIntercept = mOnRefreshListener.enableRefresh();
                     }
+                    if (isIntercept) {
+                        mHeaderView.onBegin();
+                    }
+                    return isIntercept;
                 }
                 break;
             default:

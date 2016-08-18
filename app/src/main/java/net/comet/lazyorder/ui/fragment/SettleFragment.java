@@ -122,7 +122,7 @@ public class SettleFragment extends BaseFragment<OrderController.OrderUiCallback
         if (!isPopulated()) {
             mMultiStateView.setState(MultiStateView.STATE_ERROR)
                     .setTitle(error.getMessage())
-                    .setButton(null, new View.OnClickListener() {
+                    .setButton(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             mMultiStateView.setState(MultiStateView.STATE_LOADING);
@@ -143,7 +143,7 @@ public class SettleFragment extends BaseFragment<OrderController.OrderUiCallback
             @Override
             public void run() {
                 if (hasCallbacks()) {
-                    getCallbacks().showPayment(order.getId());
+                    getCallbacks().showOrderDetail(order.getId());
                 }
             }
         }, 2000);
