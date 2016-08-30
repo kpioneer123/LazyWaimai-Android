@@ -1,10 +1,12 @@
 package net.comet.lazyorder.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManager.RunningServiceInfo;
+import android.support.v4.app.Fragment;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +17,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import java.io.File;
+import java.security.InvalidParameterException;
 import java.security.MessageDigest;
 import java.util.List;
 
@@ -86,7 +92,7 @@ public class SystemUtil {
     }
 
     /**
-     * 调用系统发送短信
+     * 调用系统的发送短信功能
      */
     public static void sendSMS(Context cxt, String smsBody) {
         Uri smsToUri = Uri.parse("smsto:");
@@ -96,13 +102,72 @@ public class SystemUtil {
     }
 
     /**
+     * 调用系统的照相功能
+     */
+    public static void takePhoto(Object context, Uri output, int requestCode) {
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(intent, requestCode);
+        } else if (context instanceof Fragment) {
+            ((Fragment) context).startActivityForResult(intent, requestCode);
+        } else {
+            throw new InvalidParameterException("context must is a Activity or Fragment");
+        }
+    }
+
+    /**
+     * 打开系统相册
+     */
+    public static void openAlbums(Object context, String title, int requestCode) {
+        Intent intent = new Intent();
+        intent.setAction(Build.VERSION.SDK_INT < 19 ? Intent.ACTION_GET_CONTENT : Intent.ACTION_PICK);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        if (title != null && !title.equals("")) {
+            intent = Intent.createChooser(intent, title);
+        }
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(intent, requestCode);
+        } else if (context instanceof Fragment) {
+            ((Fragment) context).startActivityForResult(intent, requestCode);
+        } else {
+            throw new InvalidParameterException("context must is a Activity or Fragment");
+        }
+    }
+
+    /**
+     * 调用系统的图片裁剪功能
+     */
+    public static void cropPicture(Object context, Uri input, Uri output, int requestCode, Bundle option) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(input, "image/*");
+        intent.putExtra("output", output);
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", option.getInt("aspectX", 1)); // 裁剪框比例
+        intent.putExtra("aspectY", option.getInt("aspectY", 1));
+//        intent.putExtra("outputX", option.getInt("width", 300)); // 输出图片大小
+//        intent.putExtra("outputY", option.getInt("height", 300));
+        intent.putExtra("scale", true); // 去黑边
+        intent.putExtra("scaleUpIfNeeded", true); // 去黑边
+        intent.putExtra("return-data", option.getBoolean("return-data", false)); // 是否裁剪后返回
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(intent, requestCode);
+        } else if (context instanceof Fragment) {
+            ((Fragment) context).startActivityForResult(intent, requestCode);
+        } else {
+            throw new InvalidParameterException("context must is a Activity or Fragment");
+        }
+    }
+
+    /**
      * 判断网络是否连接
      */
     public static boolean checkNet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
-        return info != null;// 网络是否连接
+        return info != null;
     }
 
     /**

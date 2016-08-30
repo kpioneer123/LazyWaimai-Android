@@ -46,8 +46,8 @@
 
                         <ImageView
                             android:id="@+id/img_avatar"
-                            android:layout_width="@dimen/drawer_account_avatar_width"
-                            android:layout_height="@dimen/drawer_account_avatar_width"
+                            android:layout_width="@dimen/avatar_width"
+                            android:layout_height="@dimen/avatar_height"
                             android:src="@drawable/ic_default_avatar"
                             />
 
@@ -101,8 +101,8 @@
 
                         <ImageView
                             android:id="@+id/img_account_avatar1"
-                            android:layout_width="@dimen/drawer_account_avatar_width"
-                            android:layout_height="@dimen/drawer_account_avatar_width"
+                            android:layout_width="@dimen/avatar_width"
+                            android:layout_height="@dimen/avatar_height"
                             android:src="@drawable/ic_default_avatar"
                             />
 
@@ -152,6 +152,7 @@
                     android:layout_height="wrap_content"
                     app:siv_icon="@drawable/ic_address"
                     app:siv_name="@string/label_my_address"
+                    app:siv_indicator="true"
                     />
 
                 <net.comet.lazyorder.widget.section.SectionTextItemView
@@ -160,6 +161,7 @@
                     android:layout_height="wrap_content"
                     app:siv_icon="@drawable/ic_favorite"
                     app:siv_name="@string/label_my_favorite"
+                    app:siv_indicator="true"
                     />
 
             </net.comet.lazyorder.widget.section.SectionListView>
@@ -176,6 +178,7 @@
                     android:layout_height="wrap_content"
                     app:siv_icon="@drawable/ic_account"
                     app:siv_name="@string/label_update_account"
+                    app:siv_indicator="true"
                     />
 
                 <net.comet.lazyorder.widget.section.SectionTextItemView
@@ -184,6 +187,7 @@
                     android:layout_height="wrap_content"
                     app:siv_icon="@drawable/ic_phone"
                     app:siv_name="@string/label_phone_update"
+                    app:siv_indicator="true"
                     />
 
                 <net.comet.lazyorder.widget.section.SectionTextItemView
@@ -192,6 +196,7 @@
                     android:layout_height="wrap_content"
                     app:siv_icon="@drawable/ic_password"
                     app:siv_name="@string/label_update_password"
+                    app:siv_indicator="true"
                     />
 
             </net.comet.lazyorder.widget.section.SectionListView>
@@ -209,6 +214,7 @@
                     android:layout_height="wrap_content"
                     app:siv_icon="@drawable/ic_version_update"
                     app:siv_name="@string/label_check_update"
+                    app:siv_indicator="true"
                     />
 
                 <net.comet.lazyorder.widget.section.SectionTextItemView
@@ -217,6 +223,7 @@
                     android:layout_height="wrap_content"
                     app:siv_icon="@drawable/ic_feedback"
                     app:siv_name="@string/label_help_feedback"
+                    app:siv_indicator="true"
                     />
 
             </net.comet.lazyorder.widget.section.SectionListView>

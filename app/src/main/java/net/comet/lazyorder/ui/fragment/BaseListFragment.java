@@ -9,7 +9,7 @@ import net.comet.lazyorder.context.AppConfig;
 import net.comet.lazyorder.model.bean.ResponseError;
 import net.comet.lazyorder.ui.BaseUiController;
 import net.comet.lazyorder.util.CollectionUtil;
-import static net.comet.lazyorder.util.Constants.Code.*;
+import static net.comet.lazyorder.util.Constants.HttpCode.*;
 import net.comet.lazyorder.util.ToastUtil;
 import net.comet.lazyorder.widget.MultiStateView;
 import net.comet.lazyorder.widget.refresh.OnRefreshListener;
@@ -25,6 +25,8 @@ import io.nlopez.smartadapters.views.BindableLayout;
 
 public abstract class BaseListFragment<I, IV extends BindableLayout, UC> extends BaseFragment<UC>
         implements BaseUiController.ListUi<I>, ViewEventListener<I> {
+
+    private static final int PAGE_SIZE = 20;
 
     @Bind(R.id.multi_state_view)
     MultiStateView mMultiStateView;
@@ -124,8 +126,7 @@ public abstract class BaseListFragment<I, IV extends BindableLayout, UC> extends
             mRefreshLayout.finishLoadMore();
         }
 
-        mRefreshLayout.setEnableLoadMore(!CollectionUtil.isEmpty(items)
-                && items.size() == AppConfig.PAGE_SIZE);
+        mRefreshLayout.setEnableLoadMore(!CollectionUtil.isEmpty(items) && items.size() == PAGE_SIZE);
 
         if (!CollectionUtil.isEmpty(items)) {
             if (pageIndex == 1) {

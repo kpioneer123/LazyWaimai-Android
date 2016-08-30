@@ -10,10 +10,8 @@ import net.comet.lazyorder.util.PreferenceUtil;
  */
 public class AppCookie {
 
-    private static boolean isLoggin;
-
     public static boolean isLoggin() {
-        return isLoggin;
+        return getUserInfo() != null && getAccessToken() != null;
     }
 
     /**
@@ -21,7 +19,6 @@ public class AppCookie {
      * @param user
      */
     public static void saveUserInfo(User user) {
-        isLoggin = (user != null);
         PreferenceUtil.set(Persistence.USER_INFO, user);
     }
 
@@ -63,5 +60,21 @@ public class AppCookie {
      */
     public static String getAccessToken() {
         return PreferenceUtil.getString(Persistence.ACCESS_TOKEN, null);
+    }
+
+    /**
+     * 保存RefreshToken
+     * @param token
+     */
+    public static void saveRefreshToken(String token) {
+        PreferenceUtil.set(Persistence.REFRESH_TOKEN, token);
+    }
+
+    /**
+     * 获取RefreshToken
+     * @return
+     */
+    public static String getRefreshToken() {
+        return PreferenceUtil.getString(Persistence.REFRESH_TOKEN, null);
     }
 }

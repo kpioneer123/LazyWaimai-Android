@@ -15,6 +15,7 @@ import net.comet.lazyorder.util.DensityUtil;
 
 public abstract class SectionItemView extends RelativeLayout {
 
+    protected RelativeLayout itemLayout;
     protected TextView nameTxt;
     protected ImageView indicatorImg;
     protected FrameLayout extensionLayout;
@@ -31,6 +32,7 @@ public abstract class SectionItemView extends RelativeLayout {
         super(context, attrs, defStyle);
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_section_item, this);
+        itemLayout = (RelativeLayout) view.findViewById(R.id.layout_item);
         nameTxt = (TextView) view.findViewById(R.id.txt_name);
         indicatorImg = (ImageView) view.findViewById(R.id.img_indicator);
         extensionLayout = (FrameLayout) view.findViewById(R.id.layout_extension);
@@ -38,7 +40,7 @@ public abstract class SectionItemView extends RelativeLayout {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.SectionItemView);
         CharSequence name = array.getText(R.styleable.SectionItemView_siv_name);
         Drawable icon = array.getDrawable(R.styleable.SectionItemView_siv_icon);
-        boolean indicator = array.getBoolean(R.styleable.SectionItemView_siv_indicator, true);
+        boolean indicator = array.getBoolean(R.styleable.SectionItemView_siv_indicator, false);
         array.recycle();
 
         nameTxt.setText(name);

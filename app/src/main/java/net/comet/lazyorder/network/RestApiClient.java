@@ -5,12 +5,15 @@ import net.comet.lazyorder.context.AppConfig;
 import net.comet.lazyorder.network.service.AddressService;
 import net.comet.lazyorder.network.service.BusinessService;
 import net.comet.lazyorder.network.service.CodeService;
+import net.comet.lazyorder.network.service.CommonService;
 import net.comet.lazyorder.network.service.OrderService;
 import net.comet.lazyorder.network.service.AccountService;
+import net.comet.lazyorder.network.service.TokenService;
 import net.comet.lazyorder.util.Constants.Key;
 import net.comet.lazyorder.util.SystemUtil;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Proxy;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
@@ -27,10 +30,10 @@ public class RestApiClient {
     public static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
     public static final String DEVICE_TYPE = "android";
 
-    private String mToken;
     private Context mContext;
     private final File mCacheLocation;
     private Retrofit mRetrofit;
+    private String mToken;
 
     public RestApiClient(Context context, File cacheLocation) {
         mContext = context;
@@ -92,23 +95,42 @@ public class RestApiClient {
         return mRetrofit;
     }
 
+    private  <T> T get(Class<T> clazz) {
+        return getRetrofit().create(clazz);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T getByProxy(Class<T> clazz) {
+        T t = get(clazz);
+        return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class<?>[] { clazz },
+                new ResponseErrorProxy(t, this));
+    }
+
+    public TokenService tokenService() {
+        return get(TokenService.class);
+    }
+
     public AccountService accountService() {
-        return getRetrofit().create(AccountService.class);
+        return getByProxy(AccountService.class);
     }
 
     public AddressService addressService() {
-        return getRetrofit().create(AddressService.class);
+        return getByProxy(AddressService.class);
     }
 
     public BusinessService businessService() {
-        return getRetrofit().create(BusinessService.class);
+        return getByProxy(BusinessService.class);
     }
 
     public CodeService codeService() {
-        return getRetrofit().create(CodeService.class);
+        return getByProxy(CodeService.class);
     }
 
     public OrderService orderService() {
-        return getRetrofit().create(OrderService.class);
+        return getByProxy(OrderService.class);
+    }
+
+    public CommonService commonService() {
+        return getByProxy(CommonService.class);
     }
 }

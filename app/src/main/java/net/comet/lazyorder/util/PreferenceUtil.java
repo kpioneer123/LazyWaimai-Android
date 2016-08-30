@@ -41,7 +41,7 @@ public class PreferenceUtil {
     }
 
     public static String getString(String name) {
-        return getString(name, "");
+        return getString(name, null);
     }
 
     public static String getString(String name, String defaultValue) {

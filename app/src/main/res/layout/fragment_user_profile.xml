@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/dark_gray_bg"
+    >
+
+    <include layout="@layout/include_toolbar"
+        />
+
+    <net.comet.lazyorder.widget.section.SectionListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_minor"
+        >
+
+        <net.comet.lazyorder.widget.section.SectionExtensionItemView
+            android:id="@+id/item_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:siv_name="@string/label_avatar"
+            >
+
+            <ImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="@dimen/avatar_width"
+                android:layout_height="@dimen/avatar_height"
+                tools:src="@drawable/ic_default_avatar"
+                />
+
+        </net.comet.lazyorder.widget.section.SectionExtensionItemView>
+
+
+        <net.comet.lazyorder.widget.section.SectionTextItemView
+            android:id="@+id/item_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:siv_name="@string/label_nickname"
+            />
+
+    </net.comet.lazyorder.widget.section.SectionListView>
+
+    <net.comet.lazyorder.widget.section.SectionListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_minor"
+        >
+
+        <net.comet.lazyorder.widget.section.SectionTextItemView
+            android:id="@+id/item_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:siv_name="@string/label_mobile"
+            />
+
+        <net.comet.lazyorder.widget.section.SectionTextItemView
+            android:id="@+id/item_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:siv_name="@string/label_email"
+            />
+
+    </net.comet.lazyorder.widget.section.SectionListView>
+
+</LinearLayout>

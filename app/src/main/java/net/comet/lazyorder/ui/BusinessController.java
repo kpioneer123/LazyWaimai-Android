@@ -26,6 +26,8 @@ public class BusinessController extends BaseUiController<BusinessController.Busi
 
     private static final String LOG_TAG = BusinessController.class.getSimpleName();
 
+    private static final int PAGE_SIZE = 20;
+
     private final RestApiClient mRestApiClient;
 
     private int mPageIndex;
@@ -126,7 +128,7 @@ public class BusinessController extends BaseUiController<BusinessController.Busi
      */
     private void fetchRestaurants(final int callingId) {
         mPageIndex = 1;
-        fetchRestaurants(callingId, mPageIndex);
+        fetchRestaurants(callingId, mPageIndex, PAGE_SIZE);
     }
 
     /**
@@ -134,9 +136,9 @@ public class BusinessController extends BaseUiController<BusinessController.Busi
      * @param callingId
      * @param page
      */
-    private void fetchRestaurants(final int callingId, final int page) {
+    private void fetchRestaurants(final int callingId, final int page, int size) {
         mRestApiClient.businessService()
-                .restaurants(page)
+                .restaurants(page, size)
                 .map(new Func1<ResultsPage<Business>, List<Business>>() {
                     @Override
                     public List<Business> call(ResultsPage<Business> results) {
@@ -219,7 +221,7 @@ public class BusinessController extends BaseUiController<BusinessController.Busi
                     QueryType queryType = ((BusinessListUi) ui).getQueryType();
                     if (queryType == QueryType.RESTAURANTS) {
                         mPageIndex = 1;
-                        fetchRestaurants(getId(ui), mPageIndex);
+                        fetchRestaurants(getId(ui), mPageIndex, PAGE_SIZE);
                     }
                 } else if (ui instanceof ProductListUi) {
                     fetchProducts(getId(ui), ui.getRequestParameter());
@@ -232,7 +234,7 @@ public class BusinessController extends BaseUiController<BusinessController.Busi
                     QueryType queryType = ((BusinessListUi) ui).getQueryType();
                     if (queryType == QueryType.RESTAURANTS) {
                         ++mPageIndex;
-                        fetchRestaurants(getId(ui), mPageIndex);
+                        fetchRestaurants(getId(ui), mPageIndex, PAGE_SIZE);
                     }
                 }
             }

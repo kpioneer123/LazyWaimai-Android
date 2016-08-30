@@ -15,6 +15,7 @@ import net.comet.lazyorder.model.bean.User;
 import net.comet.lazyorder.ui.BaseUiController;
 import net.comet.lazyorder.ui.UserController;
 import net.comet.lazyorder.util.SystemUtil;
+import net.comet.lazyorder.widget.CircleTransform;
 import net.comet.lazyorder.widget.section.SectionTextItemView;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -58,6 +59,7 @@ public class UserCenterFragment extends BaseFragment<UserController.UserUiCallba
     @Bind(R.id.btn_logout)
     TextView mLogoutBtn;
 
+
     protected BaseUiController getController() {
         return AppContext.getContext().getMainController().getUserController();
     }
@@ -71,30 +73,6 @@ public class UserCenterFragment extends BaseFragment<UserController.UserUiCallba
     protected void initialViews(Bundle savedInstanceState) {
         String versionName = SystemUtil.getAppVersionName(getActivity());
         mCheckUpdateBtn.setText(getString(R.string.label_current_version_name, versionName));
-    }
-
-    @OnClick({R.id.layout_login_before, R.id.btn_check_update, R.id.btn_my_address, R.id.btn_logout})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.layout_login_before:
-                if (hasCallbacks()) {
-                    getCallbacks().showLogin();
-                }
-                break;
-            case R.id.btn_my_address:
-                if (hasCallbacks()) {
-                    getCallbacks().showAddressList();
-                }
-                break;
-            case R.id.btn_check_update:
-                if (hasCallbacks()) {
-                    getCallbacks().checkUpdate();
-                }
-                break;
-            case R.id.btn_logout:
-                doLogout();
-                break;
-        }
     }
 
     @Override
@@ -114,6 +92,7 @@ public class UserCenterFragment extends BaseFragment<UserController.UserUiCallba
                 Picasso.with(getContext())
                         .load(userInfo.getAvatarUrl())
                         .placeholder(R.drawable.ic_default_avatar)
+                        .transform(new CircleTransform())
                         .into(mAvatarImg);
             }
             mAccountNameTxt.setText(userInfo.getUsername());
@@ -122,6 +101,35 @@ public class UserCenterFragment extends BaseFragment<UserController.UserUiCallba
             mLoginBeforeLayout.setVisibility(View.VISIBLE);
             mLoginAfterLayout.setVisibility(View.GONE);
             mLogoutLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick({R.id.layout_login_before, R.id.layout_login_after, R.id.btn_check_update, R.id.btn_my_address, R.id.btn_logout})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.layout_login_before:
+                if (hasCallbacks()) {
+                    getCallbacks().showLogin();
+                }
+                break;
+            case R.id.layout_login_after:
+                if (hasCallbacks()) {
+                    getCallbacks().showUserProfile();
+                }
+                break;
+            case R.id.btn_my_address:
+                if (hasCallbacks()) {
+                    getCallbacks().showAddressList();
+                }
+                break;
+            case R.id.btn_check_update:
+                if (hasCallbacks()) {
+                    getCallbacks().checkUpdate();
+                }
+                break;
+            case R.id.btn_logout:
+                doLogout();
+                break;
         }
     }
 

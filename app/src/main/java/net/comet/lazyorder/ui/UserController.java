@@ -13,15 +13,20 @@ import net.comet.lazyorder.network.RestApiClient;
 import net.comet.lazyorder.network.action.ErrorAction;
 import net.comet.lazyorder.util.EventUtil;
 import net.comet.lazyorder.util.StringFetcher;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import static net.comet.lazyorder.util.Constants.Key.*;
 
 @Singleton
 public class UserController extends BaseUiController<UserController.UserUi, UserController.UserUiCallbacks> {
@@ -41,12 +46,11 @@ public class UserController extends BaseUiController<UserController.UserUi, User
         User user = event.getUser();
         if (user != null) {
             AppCookie.saveUserInfo(user);
-            AppCookie.saveAccessToken(user.getAccessToken());
             AppCookie.saveLastPhone(user.getMobile());
-            mRestApiClient.setToken(user.getAccessToken());
         } else {
             AppCookie.saveUserInfo(null);
             AppCookie.saveAccessToken(null);
+            AppCookie.saveRefreshToken(null);
             mRestApiClient.setToken(null);
         }
 
@@ -57,11 +61,6 @@ public class UserController extends BaseUiController<UserController.UserUi, User
     protected void onInited() {
         super.onInited();
         EventUtil.register(this);
-
-        String accessToken = AppCookie.getAccessToken();
-        if (accessToken != null) {
-            mRestApiClient.setToken(accessToken);
-        }
     }
 
     @Override
@@ -78,7 +77,10 @@ public class UserController extends BaseUiController<UserController.UserUi, User
             return StringFetcher.getString(R.string.title_login);
         } else if (ui instanceof UserCenterUi) {
             return StringFetcher.getString(R.string.title_user_center);
+        } else if (ui instanceof UserProfileUi) {
+            return StringFetcher.getString(R.string.title_profile);
         }
+
         return null;
     }
 
@@ -90,7 +92,7 @@ public class UserController extends BaseUiController<UserController.UserUi, User
     }
 
     private void populateUserCenterUi(UserCenterUi ui) {
-        ui.showUserInfo(AppCookie.getUserInfo());
+        ui.showUserInfo(AppCookie.isLoggin() ? AppCookie.getUserInfo() : null);
     }
 
     /**
@@ -192,26 +194,23 @@ public class UserController extends BaseUiController<UserController.UserUi, User
      */
     private void doLogin(final int callingId, String username, String password) {
         Map<String, String> params = new HashMap<>();
-        params.put("username", username);
-        params.put("password", password);
-        params.put("grant_type", "password");
-        params.put("client_id", AppConfig.CLIENT_ID);
-        params.put("client_secret", AppConfig.CLIENT_SECRET);
+        params.put(PARAM_CLIENT_ID, AppConfig.CLIENT_ID);
+        params.put(PARAM_CLIENT_SECRET, AppConfig.CLIENT_SECRET);
+        params.put(PARAM_GRANT_TYPE, "password");
+        params.put(PARAM_USER_NAME, username);
+        params.put(PARAM_PASSWORD, password);
 
-        mRestApiClient.accountService()
-                .login(params)
+        mRestApiClient.tokenService()
+                .accessToken(params)
                 .flatMap(new Func1<Token, Observable<User>>() {
                     @Override
                     public Observable<User> call(final Token token) {
+                        AppCookie.saveAccessToken(token.getAccessToken());
+                        AppCookie.saveRefreshToken(token.getRefreshToken());
+
                         return mRestApiClient.setToken(token.getAccessToken())
                                 .accountService()
-                                .profile(token.getUserId())
-                                .doOnNext(new Action1<User>() {
-                                    @Override
-                                    public void call(User user) {
-                                        user.setAccessToken(token.getAccessToken());
-                                    }
-                                });
+                                .profile(token.getUserId());
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -238,6 +237,45 @@ public class UserController extends BaseUiController<UserController.UserUi, User
     }
 
     /**
+     * 用户上传头像
+     * @param callingId
+     */
+    private void doUploadAvatar(final int callingId, File file) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("avatar", file.getName(), requestBody);
+
+        mRestApiClient.commonService()
+            .singleFileUpload(part)
+            .flatMap(new Func1<String, Observable<User>>() {
+                @Override
+                public Observable<User> call(final String url) {
+                    return mRestApiClient
+                            .accountService()
+                            .updateAvatar(AppCookie.getUserInfo().getId(), url);
+                }
+            })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Action1<User>() {
+                @Override
+                public void call(User user) {
+                    UserUi ui = findUi(callingId);
+                    if (ui instanceof UserProfileUi) {
+                        ((UserProfileUi) ui).uploadAvatarFinish(user.getAvatarUrl());
+                    }
+                }
+            }, new ErrorAction() {
+                @Override
+                public void call(ResponseError error) {
+                    UserUi ui = findUi(callingId);
+                    if (ui instanceof UserProfileUi) {
+                        ((UserProfileUi) ui).onNetworkError(error);
+                    }
+                }
+            });
+    }
+
+    /**
      * 创建留给UI界面使用的回调
      * @param ui
      * @return
@@ -259,6 +297,14 @@ public class UserController extends BaseUiController<UserController.UserUi, User
                 Display display = getDisplay();
                 if (display != null) {
                     display.startLoginActivity();
+                }
+            }
+
+            @Override
+            public void showUserProfile() {
+                Display display = getDisplay();
+                if (display != null) {
+                    display.startUserActivity();
                 }
             }
 
@@ -295,6 +341,11 @@ public class UserController extends BaseUiController<UserController.UserUi, User
             }
 
             @Override
+            public void uploadAvatar(File file) {
+                doUploadAvatar(getId(ui), file);
+            }
+
+            @Override
             public void login(String account, String password) {
                 doLogin(getId(ui), account, password);
             }
@@ -311,6 +362,8 @@ public class UserController extends BaseUiController<UserController.UserUi, User
 
         void showLogin();
 
+        void showUserProfile();
+
         void showRegister();
 
         void showAddressList();
@@ -322,6 +375,8 @@ public class UserController extends BaseUiController<UserController.UserUi, User
         void checkCode(String mobile, String code);
 
         void createUser(String mobile, String password);
+
+        void uploadAvatar(File file);
 
         void login(String account, String password);
 
@@ -355,6 +410,12 @@ public class UserController extends BaseUiController<UserController.UserUi, User
 
     public interface UserCenterUi extends UserUi {
         void showUserInfo(User userInfo);
+
+        void onNetworkError(ResponseError error);
+    }
+
+    public interface UserProfileUi extends UserUi {
+        void uploadAvatarFinish(String url);
 
         void onNetworkError(ResponseError error);
     }

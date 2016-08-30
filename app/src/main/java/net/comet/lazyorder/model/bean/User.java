@@ -25,8 +25,6 @@ public class User {
     @SerializedName("last_address_id")
     long lastAddressId;
 
-    private String accessToken;
-
     public String getId() {
         return _id;
     }
@@ -75,13 +73,6 @@ public class User {
         this.lastAddressId = lastAddressId;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
 
     @Override
     public String toString() {

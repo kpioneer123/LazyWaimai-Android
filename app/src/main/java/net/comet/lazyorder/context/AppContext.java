@@ -43,22 +43,22 @@ public class AppContext extends Application implements Injector {
         super.onCreate();
         mInstance = this;
 
-        // 依赖注解初始化
-        mObjectGraph = ObjectGraph.create(
-            new ApplicationModule(),
-            new ContextProvider(this),
-            new InjectorModule(this)
-        );
-        mObjectGraph.inject(this);
         // 吐司初始化
         ToastUtil.init(this);
+
         // 本地存储工具类初始化
         PreferenceUtil.init(this, GsonHelper.builderGson());
+
         // 日志打印器初始化
-        Logger.init(getPackageName())
-                .hideThreadInfo()
-                .setLogLevel(BuildConfig.DEBUG ? LogLevel.FULL
-                        : LogLevel.NONE);
+        Logger.init(getPackageName()).setLogLevel(BuildConfig.DEBUG ? LogLevel.FULL : LogLevel.NONE);
+
+        // 依赖注解初始化
+        mObjectGraph = ObjectGraph.create(
+                new ApplicationModule(),
+                new ContextProvider(this),
+                new InjectorModule(this)
+        );
+        mObjectGraph.inject(this);
     }
 
     @Override

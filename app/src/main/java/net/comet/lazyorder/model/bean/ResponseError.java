@@ -11,12 +11,12 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import retrofit2.adapter.rxjava.HttpException;
-import static net.comet.lazyorder.util.Constants.Code.HTTP_NETWORK_ERROR;
-import static net.comet.lazyorder.util.Constants.Code.HTTP_SERVER_ERROR;
-import static net.comet.lazyorder.util.Constants.Code.HTTP_UNKNOWN_ERROR;
-import static net.comet.lazyorder.util.Constants.Code.HTTP_UNAUTHORIZED;
+import static net.comet.lazyorder.util.Constants.HttpCode.HTTP_NETWORK_ERROR;
+import static net.comet.lazyorder.util.Constants.HttpCode.HTTP_SERVER_ERROR;
+import static net.comet.lazyorder.util.Constants.HttpCode.HTTP_UNKNOWN_ERROR;
+import static net.comet.lazyorder.util.Constants.HttpCode.HTTP_UNAUTHORIZED;
 
-public class ResponseError {
+public class ResponseError extends RuntimeException {
 
     private int status;
     private String message;

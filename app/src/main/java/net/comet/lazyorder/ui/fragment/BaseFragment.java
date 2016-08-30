@@ -1,5 +1,6 @@
 package net.comet.lazyorder.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.levelmoney.velodrome.Velodrome;
 import net.comet.lazyorder.R;
 import net.comet.lazyorder.ui.BaseUiController;
 import net.comet.lazyorder.ui.Display;
@@ -61,6 +63,12 @@ public abstract class BaseFragment<UC> extends Fragment
     public void onDestroy() {
         super.onDestroy();
         getController().detachUi(this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Velodrome.handleResult(this, requestCode, resultCode, data);
     }
 
     protected void handleArguments(Bundle arguments) {}

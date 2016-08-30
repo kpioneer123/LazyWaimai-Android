@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import net.comet.lazyorder.R;
 import net.comet.lazyorder.context.AppContext;
 import net.comet.lazyorder.model.bean.Address;
@@ -24,11 +26,11 @@ public class AddressUpdateFragment extends BaseFragment<AddressController.Addres
     @Bind(R.id.et_input_phone)
     EditText mEtPhone;
 
-    @Bind(R.id.et_input_summary_address)
-    EditText mEtSummary;
+    @Bind(R.id.txt_poi_address)
+    TextView mPoiAddressTxt;
 
-    @Bind(R.id.et_input_detail_address)
-    EditText mEtDetail;
+    @Bind(R.id.et_detail_address)
+    EditText mDetailAddressEt;
 
     @Bind(R.id.btn_submit)
     Button mBtnModifyOrCreate;
@@ -52,7 +54,7 @@ public class AddressUpdateFragment extends BaseFragment<AddressController.Addres
     public Address getRequestParameter() {
         Bundle arguments = getArguments();
         if (arguments != null) {
-            return getArguments().getParcelable(Display.PARAM_OBJ);
+            return arguments.getParcelable(Display.PARAM_OBJ);
         }
 
         return null;
@@ -69,8 +71,8 @@ public class AddressUpdateFragment extends BaseFragment<AddressController.Addres
             Address address = getRequestParameter();
             mEtName.setText(address.getName());
             mEtPhone.setText(address.getPhone());
-            mEtSummary.setText(address.getSummary());
-            mEtDetail.setText(address.getDetail());
+            mPoiAddressTxt.setText(address.getSummary());
+            mDetailAddressEt.setText(address.getDetail());
             mBtnModifyOrCreate.setText(R.string.btn_confirm_update);
         } else {
             mBtnModifyOrCreate.setText(R.string.btn_confirm_create);
@@ -125,13 +127,13 @@ public class AddressUpdateFragment extends BaseFragment<AddressController.Addres
             return;
         }
         // 验证小区/学校/大楼是否为空
-        final String summary = mEtSummary.getText().toString().trim();
+        final String summary = mPoiAddressTxt.getText().toString().trim();
         if (!getCallbacks().isSummaryValid(summary)) {
             showSnackbar(R.string.toast_error_empty_address_summary);
             return;
         }
         // 验证详细地址是否为空
-        final String detail = mEtDetail.getText().toString().trim();
+        final String detail = mDetailAddressEt.getText().toString().trim();
         if (!getCallbacks().isDetailValid(detail)) {
             showSnackbar(R.string.toast_error_empty_address_detail);
             return;

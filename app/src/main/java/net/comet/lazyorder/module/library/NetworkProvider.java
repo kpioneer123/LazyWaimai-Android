@@ -1,18 +1,14 @@
 package net.comet.lazyorder.module.library;
 
 import android.content.Context;
-
-import net.comet.lazyorder.context.AppConfig;
+import net.comet.lazyorder.context.AppCookie;
 import net.comet.lazyorder.module.qualifiers.ApplicationContext;
 import net.comet.lazyorder.module.qualifiers.CacheDirectory;
 import net.comet.lazyorder.module.qualifiers.ShareDirectory;
 import net.comet.lazyorder.network.RestApiClient;
 import net.comet.lazyorder.util.Constants;
-
 import java.io.File;
-
 import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -24,7 +20,11 @@ public class NetworkProvider {
 
     @Provides @Singleton
     public RestApiClient provideRestApiClient(@CacheDirectory File cacheLocation, @ApplicationContext Context context) {
-        return new RestApiClient(context, cacheLocation);
+        RestApiClient restApiClient = new RestApiClient(context, cacheLocation);
+        if (AppCookie.isLoggin()) {
+            restApiClient.setToken(AppCookie.getAccessToken());
+        }
+        return restApiClient;
     }
 
     @Provides @Singleton @CacheDirectory
@@ -36,5 +36,4 @@ public class NetworkProvider {
     public File provideShareLocation(@ApplicationContext Context context) {
         return new File(context.getFilesDir(), Constants.Persistence.SHARE_FILE);
     }
-
 }

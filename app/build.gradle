@@ -21,8 +21,7 @@ android {
     // 两种打包方式的配置
     buildTypes {
         release {
-            // 自定义了一个名为SERVER_URL，类型为STRING，值为URL_RELEASE的build属性
-            buildConfigField STRING, SERVER_URL, URL_RELEASE
+            buildConfigField "String", "SERVER_URL", URL_RELEASE
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            signingConfig signingConfigs.talaris
@@ -32,8 +31,7 @@ android {
 //            ]
         }
         debug {
-            // 自定义了一个名为SERVER_URL，类型为STRING，值为URL_RELEASE的build属性
-            buildConfigField STRING, SERVER_URL, URL_TESTING
+            buildConfigField "String", "SERVER_URL", URL_TESTING
         }
     }
 
@@ -105,4 +103,6 @@ dependencies {
     // 路由跳转
     compile 'com.github.mzule.activityrouter:activityrouter:1.1.6'
     apt 'com.github.mzule.activityrouter:compiler:1.1.5'
+    // onActivityResult处理器
+    compile 'com.levelmoney.velodrome:velodrome:1.0'
 }

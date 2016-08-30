@@ -8,8 +8,8 @@
 
     <net.comet.lazyorder.widget.PicassoImageView
         android:id="@+id/img_avatar"
-        android:layout_width="@dimen/drawer_account_avatar_width"
-        android:layout_height="@dimen/drawer_account_avatar_width"
+        android:layout_width="@dimen/avatar_width"
+        android:layout_height="@dimen/avatar_width"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_default_avatar" />
 

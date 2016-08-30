@@ -2,9 +2,7 @@ package net.comet.lazyorder.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,10 +14,11 @@ import net.comet.lazyorder.model.bean.ResponseError;
 import net.comet.lazyorder.ui.BaseUiController;
 import net.comet.lazyorder.ui.Display;
 import net.comet.lazyorder.ui.UserController;
+import net.comet.lazyorder.util.StringUtil;
 import net.comet.lazyorder.util.SystemUtil;
-
 import butterknife.Bind;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class AccountLoginFragment extends BaseFragment<UserController.UserUiCallbacks>
         implements UserController.UserLoginUi {
@@ -56,32 +55,32 @@ public class AccountLoginFragment extends BaseFragment<UserController.UserUiCall
 
     @Override
     protected void initialViews(Bundle savedInstanceState) {
-        mEtAccount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                int visible = TextUtils.isEmpty(s.toString()) ? View.GONE : View.VISIBLE;
-                mIvDeleteAccount.setVisibility(visible);
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
-            }
-        });
-        mEtPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                int visible = TextUtils.isEmpty(s.toString()) ? View.GONE : View.VISIBLE;
-                mIvDeletePassword.setVisibility(visible);
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
-            }
-        });
+//        mEtAccount.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                int visible = TextUtils.isEmpty(s.toString()) ? View.GONE : View.VISIBLE;
+//                mIvDeleteAccount.setVisibility(visible);
+//            }
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
+//            }
+//            @Override
+//            public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
+//            }
+//        });
+//        mEtPassword.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                int visible = TextUtils.isEmpty(s.toString()) ? View.GONE : View.VISIBLE;
+//                mIvDeletePassword.setVisibility(visible);
+//            }
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
+//            }
+//            @Override
+//            public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
+//            }
+//        });
     }
 
     @Override
@@ -104,6 +103,18 @@ public class AccountLoginFragment extends BaseFragment<UserController.UserUiCall
                 }
             }
         }, 1500);
+    }
+
+    @OnTextChanged(R.id.et_user_account)
+    public void onAccountTextChange(CharSequence s) {
+        int visible = StringUtil.isEmpty(s.toString()) ? View.GONE : View.VISIBLE;
+        mIvDeleteAccount.setVisibility(visible);
+    }
+
+    @OnTextChanged(R.id.et_user_password)
+    public void onPasswordTextChange(CharSequence s) {
+        int visible = StringUtil.isEmpty(s.toString()) ? View.GONE : View.VISIBLE;
+        mIvDeletePassword.setVisibility(visible);
     }
 
     @OnClick({R.id.iv_delete_account, R.id.iv_delete_password, R.id.btn_login, R.id.tv_forget_password, R.id.tv_go_to_register})

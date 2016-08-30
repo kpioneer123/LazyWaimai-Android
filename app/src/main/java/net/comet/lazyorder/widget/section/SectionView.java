@@ -40,12 +40,12 @@ public class SectionView extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        if (StringUtil.isNotBlank(headerText)) {
+        if (StringUtil.isNotEmpty(headerText)) {
             TextView headerTxt = (TextView) inflater.inflate(R.layout.view_section_list_footer, null);
             headerTxt.setText(headerText);
             addView(headerTxt);
         }
-        if (StringUtil.isBlank(footerText)) {
+        if (StringUtil.isEmpty(footerText)) {
             TextView footerTxt = (TextView) inflater.inflate(R.layout.view_section_list_footer, null);
             footerTxt.setText(footerText);
             addView(footerTxt);

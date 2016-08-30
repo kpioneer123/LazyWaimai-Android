@@ -80,7 +80,7 @@ public class StringUtil {
      * @return
      */
     public static boolean isEmail(String email) {
-        if (isBlank(email)) {
+        if (isEmpty(email)) {
             return false;
         }
         return Pattern.matches(MAIL_REGEX, email);
@@ -92,7 +92,7 @@ public class StringUtil {
      * @return
      */
     public static boolean isCellPhone(String phone) {
-        if (isBlank(phone)) {
+        if (isEmpty(phone)) {
             return false;
         }
         return Pattern.matches(CELL_PHONE_REGEX, phone);
@@ -103,8 +103,8 @@ public class StringUtil {
      * @param str
      * @return
      */
-    public static boolean isNotBlank(String str) {
-        return !isBlank(str);
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
     }
 
     /**
@@ -112,7 +112,7 @@ public class StringUtil {
      * @param str
      * @return
      */
-    public static boolean isBlank(String str) {
+    public static boolean isEmpty(String str) {
         return str == null || "".equals(str.trim());
     }
 

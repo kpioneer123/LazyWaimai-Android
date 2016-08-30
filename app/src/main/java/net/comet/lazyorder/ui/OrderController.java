@@ -23,12 +23,14 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import static net.comet.lazyorder.util.Constants.Code.HTTP_UNAUTHORIZED;
+import static net.comet.lazyorder.util.Constants.HttpCode.HTTP_UNAUTHORIZED;
 
 public class OrderController extends BaseUiController<OrderController.OrderUi,
         OrderController.OrderUiCallbacks> {
 
     private static final String LOG_TAG = OrderController.class.getSimpleName();
+
+    private static final int PAGE_SIZE = 20;
 
     private final RestApiClient mRestApiClient;
 
@@ -96,10 +98,10 @@ public class OrderController extends BaseUiController<OrderController.OrderUi,
 
     private void fetchOrders(int callingId) {
         mPageIndex = 1;
-        fetchOrders(callingId, mPageIndex);
+        fetchOrders(callingId, mPageIndex, PAGE_SIZE);
     }
 
-    private void fetchOrders(final int callingId, final int page) {
+    private void fetchOrders(final int callingId, final int page, int size) {
         if (!AppCookie.isLoggin()) {
             OrderUi ui = findUi(callingId);
             if (ui instanceof OrderListUi) {
@@ -109,7 +111,7 @@ public class OrderController extends BaseUiController<OrderController.OrderUi,
             }
         } else {
             mRestApiClient.orderService()
-                    .orders(page)
+                    .orders(page, size)
                     .map(new Func1<ResultsPage<Order>, List<Order>>() {
                         @Override
                         public List<Order> call(ResultsPage<Order> results) {
@@ -235,7 +237,7 @@ public class OrderController extends BaseUiController<OrderController.OrderUi,
             public void refresh() {
                 if (ui instanceof OrderListUi) {
                     mPageIndex = 1;
-                    fetchOrders(getId(ui), mPageIndex);
+                    fetchOrders(getId(ui), mPageIndex, PAGE_SIZE);
                 } else if (ui instanceof OrderDetailUi) {
                     fetchOrderDetail(getId(ui), ((OrderDetailUi) ui).getRequestParameter());
                 }
@@ -245,7 +247,7 @@ public class OrderController extends BaseUiController<OrderController.OrderUi,
             public void nextPage() {
                 if (ui instanceof OrderListUi) {
                     ++mPageIndex;
-                    fetchOrders(getId(ui), mPageIndex);
+                    fetchOrders(getId(ui), mPageIndex, PAGE_SIZE);
                 }
             }
 

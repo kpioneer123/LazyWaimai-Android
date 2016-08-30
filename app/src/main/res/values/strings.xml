@@ -18,6 +18,7 @@
     <string name="title_my_address">我的地址</string>
     <string name="title_create_address">新增地址</string>
     <string name="title_change_address">修改地址</string>
+    <string name="title_profile">个人信息</string>
 
     <string name="tab_home">主页</string>
     <string name="tab_orders">订单</string>
@@ -61,6 +62,10 @@
     <string name="label_help_feedback">帮助与反馈</string>
     <string name="label_login">请登录</string>
     <string name="label_logout">退出登录</string>
+    <string name="label_avatar">头像</string>
+    <string name="label_nickname">昵称</string>
+    <string name="label_mobile">手机</string>
+    <string name="label_email">邮箱</string>
 
     <string name="label_step_one">1. 输入手机号</string>
     <string name="label_step_tow">2. 输入验证码</string>
@@ -124,7 +129,7 @@
     <string name="toast_success_send_sms_code">验证码发送成功，请注意查收</string>
     <string name="toast_success_order_create">订单已经提交</string>
     <string name="toast_success_online_payment">在线支付成功</string>
-
+    <string name="toast_success_upload_avatar">上传头像成功</string>
 
     <!-- 输入框的提示文本 -->
     <string name="hint_edit_account">用户名/手机号/邮箱</string>
@@ -162,6 +167,7 @@
     <string name="dialog_logout_message">你确定要退出登录？</string>
     <string name="dialog_clear_shopping_cart_title">是否清空购物车？</string>
     <string name="dialog_clear_shopping_cart_message">购物车里已有其他店铺的商品了,请先清空</string>
+    <string name="dialog_update_avatar_title">更换头像</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_confirm">确定</string>
     <string name="dialog_clear">清空</string>

@@ -3,8 +3,8 @@
 
     <dimen name="drawer_side_menu_width">250dp</dimen>    <!-- 抽屉菜单的宽度 -->
     <dimen name="drawer_profile_height">180dp</dimen>
-    <dimen name="drawer_account_avatar_width">80dp</dimen>
-    <dimen name="drawer_account_avatar_height">80dp</dimen>
+    <dimen name="avatar_width">80dp</dimen>
+    <dimen name="avatar_height">80dp</dimen>
     <dimen name="business_image_width">90dp</dimen>
     <dimen name="business_image_height">70dp</dimen>
     <dimen name="food_photo_width">50dp</dimen>

@@ -1,10 +1,8 @@
 package net.comet.lazyorder.network.service;
 
-import static net.comet.lazyorder.context.AppConfig.PAGE_SIZE;
 import net.comet.lazyorder.model.bean.Order;
 import net.comet.lazyorder.model.bean.ResultsPage;
 import net.comet.lazyorder.model.bean.SettleResult;
-import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -27,8 +25,8 @@ public interface OrderService {
                              @Field("booked_at") long bookedAt,
                              @Field("remark") String remark);
 
-    @GET("orders?expand=business_info&size="+PAGE_SIZE)
-    Observable<ResultsPage<Order>> orders(@Query("page") int page);
+    @GET("orders?expand=business_info")
+    Observable<ResultsPage<Order>> orders(@Query("page") int page, @Query("size") int size);
 
     @GET("orders/{id}?expand=cart_info")
     Observable<Order> detail(@Path("id") String orderId);

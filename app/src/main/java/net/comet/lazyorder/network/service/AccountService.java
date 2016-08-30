@@ -3,12 +3,14 @@ package net.comet.lazyorder.network.service;
 import net.comet.lazyorder.model.bean.Token;
 import net.comet.lazyorder.model.bean.User;
 import java.util.Map;
-import retrofit2.Call;
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import rx.Observable;
@@ -46,9 +48,7 @@ public interface AccountService {
      */
     @FormUrlEncoded
     @POST("users")
-    Observable<Boolean> register(@Field("action") String action,
-                               @Field("mobile") String mobile,
-                               @Field("password") String password);
+    Observable<Boolean> register(@Field("action") String action, @Field("mobile") String mobile, @Field("password") String password);
 
     /**
      * 用户登录
@@ -74,6 +74,15 @@ public interface AccountService {
      */
     @FormUrlEncoded
     @PUT("users/{id}")
-    Observable<User> setLastAddress(@Path("id") String userId,
-                             @Field("last_address_id") String addressId);
+    Observable<User> setLastAddress(@Path("id") String userId, @Field("last_address_id") String addressId);
+
+    /**
+     * 修改头像
+     * @param userId
+     * @param avatarUrl
+     * @return
+     */
+    @FormUrlEncoded
+    @PUT("users/{id}")
+    Observable<User> updateAvatar(@Path("id") String userId, @Field("avatar_url") String avatarUrl);
 }

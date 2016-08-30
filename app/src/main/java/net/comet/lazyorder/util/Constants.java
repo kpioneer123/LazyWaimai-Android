@@ -5,11 +5,18 @@ public class Constants {
     public class Persistence {
         public static final String USER_INFO = "app.lazywaimai.userinfo";
         public static final String LAST_LOGIN_PHONE = "app.lazywaimai.phone";
-        public static final String ACCESS_TOKEN = "app.lazywaimai.token";
+        public static final String ACCESS_TOKEN = "app.lazywaimai.access_token";
+        public static final String REFRESH_TOKEN = "app.lazywaimai.refresh_token";
         public static final String SHARE_FILE = "app.lazywaimai.share";
     }
 
-    public class Code {
+    public class RequestCode {
+        public static final int REQUEST_CODE_CUTTING = 100;
+        public static final int REQUEST_CODE_PICK_PHOTO = 101;
+        public static final int REQUEST_CODE_TAKE_PHOTO = 102;
+    }
+
+    public class HttpCode {
         public static final int HTTP_UNAUTHORIZED = 401;
         public static final int HTTP_SERVER_ERROR = 500;
         public static final int HTTP_NOT_HAVE_NETWORK = 600;
@@ -42,6 +49,14 @@ public class Constants {
         public static final String SP_USER_INFO = "user_info";
         public static final String SP_LOGIN_STATE = "login_state";
         public static final String SP_TOKEN = "access_token";
+
+        public static final String PARAM_CLIENT_ID = "client_id";
+        public static final String PARAM_CLIENT_SECRET = "client_secret";
+        public static final String PARAM_GRANT_TYPE = "grant_type";
+        public static final String PARAM_REFRESH_TOKEN = "refresh_token";
+        public static final String PARAM_USER_NAME = "username";
+        public static final String PARAM_PASSWORD = "password";
+
     }
 
     public class Page {

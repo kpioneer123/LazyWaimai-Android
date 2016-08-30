@@ -3,6 +3,8 @@ package net.comet.lazyorder.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +27,7 @@ import net.comet.lazyorder.ui.activity.LoginActivity;
 import net.comet.lazyorder.ui.activity.OrderDetailActivity;
 import net.comet.lazyorder.ui.activity.RegisterActivity;
 import net.comet.lazyorder.ui.activity.SettleActivity;
+import net.comet.lazyorder.ui.activity.UserActivity;
 import net.comet.lazyorder.ui.fragment.AccountLoginFragment;
 import net.comet.lazyorder.ui.fragment.AddressesFragment;
 import net.comet.lazyorder.ui.fragment.AddressUpdateFragment;
@@ -35,8 +38,11 @@ import net.comet.lazyorder.ui.fragment.RegisterFirstStepFragment;
 import net.comet.lazyorder.ui.fragment.RegisterSecondStepFragment;
 import net.comet.lazyorder.ui.fragment.RegisterThirdStepFragment;
 import net.comet.lazyorder.ui.fragment.SettleFragment;
+import net.comet.lazyorder.ui.fragment.UserProfileFragment;
 import net.comet.lazyorder.util.Constants;
 import net.comet.lazyorder.util.RegisterStep;
+
+import java.io.File;
 
 public class Display {
 
@@ -160,6 +166,10 @@ public class Display {
         }
     }
 
+    /**
+     * 拨打电话
+     * @param phone
+     */
     public void callPhone(String phone) {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
         mActivity.startActivity(intent);
@@ -173,6 +183,11 @@ public class Display {
 
     public void startLoginActivity() {
         Intent intent = new Intent(mActivity, LoginActivity.class);
+        mActivity.startActivity(intent);
+    }
+
+    public void startUserActivity() {
+        Intent intent = new Intent(mActivity, UserActivity.class);
         mActivity.startActivity(intent);
     }
 
@@ -243,6 +258,10 @@ public class Display {
 
     public void showChangeAddress(Address address) {
         showFragment(AddressUpdateFragment.create(address));
+    }
+
+    public void showUserProfile() {
+        showFragment(new UserProfileFragment());
     }
 
     public void showSettle() {
