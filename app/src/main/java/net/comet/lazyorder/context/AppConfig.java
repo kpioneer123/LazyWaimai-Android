@@ -27,14 +27,14 @@ public class AppConfig {
     public static final int READ_TIMEOUT_MILLIS = 20 * 1000; // 20s
 
     /**
-     * Client ID
+     * App ID
      */
-    public static final String CLIENT_ID = "android";
+    public static final String APP_KEY = "android";
 
     /**
-     * Client Secret
+     * App Secret
      */
-    public static final String CLIENT_SECRET = "afegewlnbnl987nfelwn";
+    public static final String APP_SECRET = "afegewlnbnl987nfelwn";
 
     public static final String APP_NAME = "lazy_waimai";
 

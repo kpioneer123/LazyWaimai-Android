@@ -37,14 +37,17 @@ public class Constants {
         public static final String COMMON_SEND_SMS_CODE = "common/sendSMSCode";
     }
 
-    public class Key {
-        public static final String HEADER_CONTENT_TYPE = "Content-Type";
-        public static final String HEADER_AUTHORIZATION = "Authorization";
-        public static final String HEADER_HTTP_TIMESTAMP = "Http-Timestamp";
-        public static final String HEADER_HTTP_APP_VERSION = "Http-App-Version";
-        public static final String HEADER_HTTP_DEVICE_ID = "Http-Device-Id";
-        public static final String HEADER_HTTP_DEVICE_TYPE = "Http-Device-Type";
+    public class Header {
+        public static final String CONTENT_TYPE = "Content-Type";
+        public static final String AUTHORIZATION = "Authorization";
+        public static final String HTTP_TIMESTAMP = "Http-Timestamp";
+        public static final String HTTP_APP_VERSION = "Http-App-Version";
+        public static final String HTTP_DEVICE_ID = "Http-Device-Id";
+        public static final String HTTP_DEVICE_TYPE = "Http-Device-Type";
+        public static final String HTTP_SIGNATURE = "Http-Signature";
+    }
 
+    public class Key {
         public static final String SP_COOKIE_FILE = "cookie_file";
         public static final String SP_USER_INFO = "user_info";
         public static final String SP_LOGIN_STATE = "login_state";

@@ -94,8 +94,8 @@ public class ResponseErrorProxy implements InvocationHandler {
     private Observable<?> refreshTokenWhenTokenInvalid() {
         synchronized (ResponseErrorProxy.class) {
             Map<String, String> params = new HashMap<>();
-            params.put(PARAM_CLIENT_ID, AppConfig.CLIENT_ID);
-            params.put(PARAM_CLIENT_SECRET, AppConfig.CLIENT_SECRET);
+            params.put(PARAM_CLIENT_ID, AppConfig.APP_KEY);
+            params.put(PARAM_CLIENT_SECRET, AppConfig.APP_SECRET);
             params.put(PARAM_GRANT_TYPE, "refresh_token");
             params.put(PARAM_REFRESH_TOKEN, AppCookie.getRefreshToken());
 

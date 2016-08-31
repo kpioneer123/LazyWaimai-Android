@@ -3,7 +3,6 @@ package net.comet.lazyorder.context;
 import android.app.Application;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
-import net.comet.lazyorder.BuildConfig;
 import net.comet.lazyorder.module.ApplicationModule;
 import net.comet.lazyorder.module.library.ContextProvider;
 import net.comet.lazyorder.module.library.InjectorModule;
@@ -50,7 +49,7 @@ public class AppContext extends Application implements Injector {
         PreferenceUtil.init(this, GsonHelper.builderGson());
 
         // 日志打印器初始化
-        Logger.init(getPackageName()).setLogLevel(BuildConfig.DEBUG ? LogLevel.FULL : LogLevel.NONE);
+        Logger.init(getPackageName()).setLogLevel(AppConfig.DEBUG ? LogLevel.FULL : LogLevel.NONE);
 
         // 依赖注解初始化
         mObjectGraph = ObjectGraph.create(

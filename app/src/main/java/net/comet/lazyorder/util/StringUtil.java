@@ -141,6 +141,20 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 将byte数组转化为十六进制
+     * @param buffer
+     * @return
+     */
+    public static String toHex(byte[] buffer) {
+        StringBuffer sb = new StringBuffer(buffer.length * 2);
+
+        for (int i = 0; i < buffer.length; ++i) {
+            sb.append(Character.forDigit((buffer[i] & 240) >> 4, 16));
+            sb.append(Character.forDigit(buffer[i] & 15, 16));
+        }
+        return sb.toString();
+    }
 
     @SuppressWarnings("deprecation")
     public static void copyToClipboard(Context context, String copyText) {

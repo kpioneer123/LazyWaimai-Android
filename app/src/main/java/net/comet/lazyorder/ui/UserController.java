@@ -194,8 +194,8 @@ public class UserController extends BaseUiController<UserController.UserUi, User
      */
     private void doLogin(final int callingId, String username, String password) {
         Map<String, String> params = new HashMap<>();
-        params.put(PARAM_CLIENT_ID, AppConfig.CLIENT_ID);
-        params.put(PARAM_CLIENT_SECRET, AppConfig.CLIENT_SECRET);
+        params.put(PARAM_CLIENT_ID, AppConfig.APP_KEY);
+        params.put(PARAM_CLIENT_SECRET, AppConfig.APP_SECRET);
         params.put(PARAM_GRANT_TYPE, "password");
         params.put(PARAM_USER_NAME, username);
         params.put(PARAM_PASSWORD, password);
