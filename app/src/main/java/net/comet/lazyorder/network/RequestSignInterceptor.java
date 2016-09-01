@@ -34,7 +34,7 @@ public class RequestSignInterceptor implements Interceptor {
     private static final PercentEscaper percentEncoder = new PercentEscaper("-._~", false);
     private static final String APP_SECRET = AppConfig.APP_SECRET;
     private static final String ENCODING = "UTF-8";
-    private static final String MAC_NAME = "HmacSHA1";
+    private static final String MAC_NAME = "HmacSHA256";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -60,11 +60,12 @@ public class RequestSignInterceptor implements Interceptor {
             Log.i(LOG_TAG, "签名源串为: " + source);
 
             // 使用HMAC-SHA1算法将源串进行加密
-            byte[] encrypted = hmacSha1WithSecret(source, APP_SECRET);
-            Log.i(LOG_TAG, "源串加密后为: " + StringUtil.toHex(encrypted));
+            byte[] binary = hmacSha1WithSecret(source, APP_SECRET);
+            String encrypted = StringUtil.toHex(binary); // 加密后的数据是二进制的,需要转换
+            Log.i(LOG_TAG, "源串加密后为: " + encrypted);
 
             // 将加密后的字符串进行Base64编码
-            String signature = Base64.encode(encrypted);
+            String signature = Base64.encode(encrypted.getBytes(ENCODING));
             Log.i(LOG_TAG, "请求签名为: " + signature);
 
             // 将签名写入参数中
@@ -100,7 +101,11 @@ public class RequestSignInterceptor implements Interceptor {
      */
     public String getRequestPath(Request request) throws URISyntaxException {
         URI uri = new URI(request.url().toString());
-        return uri.getRawPath();
+        String path = uri.getRawPath();
+        if (path.startsWith("/")) {
+            path = path.substring(1);
+        }
+        return path;
     }
 
     /**

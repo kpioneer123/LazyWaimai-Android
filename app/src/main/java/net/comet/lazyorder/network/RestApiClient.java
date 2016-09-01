@@ -69,6 +69,7 @@ public class RestApiClient {
                 newRequest.addHeader(Header.CONTENT_TYPE, CONTENT_TYPE);
                 newRequest.addHeader(Header.HTTP_TIMESTAMP, String.valueOf(System.currentTimeMillis()));
                 newRequest.addHeader(Header.HTTP_APP_VERSION, SystemUtil.getAppVersionName(mContext));
+                newRequest.addHeader(Header.HTTP_APP_KEY, AppConfig.APP_KEY);
                 newRequest.addHeader(Header.HTTP_DEVICE_ID, SystemUtil.getPhoneIMEI(mContext));
                 newRequest.addHeader(Header.HTTP_DEVICE_TYPE, DEVICE_TYPE);
                 if (mToken != null) {

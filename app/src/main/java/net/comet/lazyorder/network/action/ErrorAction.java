@@ -12,7 +12,7 @@ public abstract class ErrorAction implements Action1<Throwable> {
     @Override
     public void call(Throwable throwable) {
         if (throwable instanceof ResponseError) {
-            call(throwable);
+            call((ResponseError) throwable);
         } else {
             call(ResponseError.handle(throwable));
         }

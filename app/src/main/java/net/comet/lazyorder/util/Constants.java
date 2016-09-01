@@ -42,6 +42,7 @@ public class Constants {
         public static final String AUTHORIZATION = "Authorization";
         public static final String HTTP_TIMESTAMP = "Http-Timestamp";
         public static final String HTTP_APP_VERSION = "Http-App-Version";
+        public static final String HTTP_APP_KEY = "Http-App-Key";
         public static final String HTTP_DEVICE_ID = "Http-Device-Id";
         public static final String HTTP_DEVICE_TYPE = "Http-Device-Type";
         public static final String HTTP_SIGNATURE = "Http-Signature";
